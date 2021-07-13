@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Button from '../UI/Button';
 
 import classes from './AddUser.module.css';
@@ -7,9 +7,12 @@ import ErrorModal from '../UI/ErrorModal';
 
 const AddUser = (props) => {
   const { onAddUser } = props;
+
   const [enteredUserName, setEnteredUserName] = useState('');
   const [enteredAge, setEnteredAge] = useState('');
   const [error, setError] = useState(null);
+
+  const nameInputRef = useRef();
 
   const addUserHandler = (event) => {
     event.preventDefault();
@@ -31,6 +34,7 @@ const AddUser = (props) => {
     onAddUser(enteredUserName, +enteredAge);
     setEnteredUserName('');
     setEnteredAge('');
+    nameInputRef.current.focus();
   };
 
   const userNameChangeHandler = (event) => {
@@ -56,6 +60,8 @@ const AddUser = (props) => {
             type="text"
             value={enteredUserName}
             onChange={userNameChangeHandler}
+            ref={nameInputRef}
+            autoFocus
           />
 
           <label htmlFor="age">Age (Years)</label>
